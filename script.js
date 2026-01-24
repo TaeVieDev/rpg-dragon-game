@@ -6,7 +6,7 @@ let fighting;
 let monsterHealth;
 let inventory = ["Bâton"];
 
-const button1 = document.querySelector('#button1');
+const button1 = document.querySelector("#button1");
 const button2 = document.querySelector("#button2");
 const button3 = document.querySelector("#button3");
 const text = document.querySelector("#text");
@@ -16,81 +16,99 @@ const goldText = document.querySelector("#goldText");
 const monsterStats = document.querySelector("#monsterStats");
 const monsterName = document.querySelector("#monsterName");
 const monsterHealthText = document.querySelector("#monsterHealth");
+
 const weapons = [
-  { name: 'Bâton', power: 5 },
-  { name: 'Dague', power: 30 },
-  { name: 'Marteau de guerre', power: 50 },
-  { name: 'Épée', power: 100 }
+  { name: "Bâton", power: 5 },
+  { name: "Dague", power: 30 },
+  { name: "Marteau de guerre", power: 50 },
+  { name: "Épée", power: 100 },
 ];
+
 const monsters = [
   {
     name: "Gros truc gluant",
     level: 2,
-    health: 15
+    health: 15,
   },
   {
     name: "Bête chelou à grandes dents",
     level: 8,
-    health: 60
+    health: 60,
   },
   {
     name: "Dragon",
     level: 20,
-    health: 300
-  }
-]
+    health: 300,
+  },
+];
+
 const locations = [
   {
     name: "place du village",
-    "button text": ["Aller au magasin", "Aller à la grotte", "Combattre le dragon"],
+    "button text": [
+      "Aller au magasin",
+      "Aller à la grotte",
+      "Combattre le dragon",
+    ],
     "button functions": [goStore, goCave, fightDragon],
-    text: "Vous êtes sur la place du village. Vous voyez un panneau qui dit \"Magasin\"."
+    text: 'Vous êtes sur la place du village. Vous voyez un panneau qui dit "Magasin".',
   },
   {
     name: "magasin",
-    "button text": ["Acheter 10 vie (10 or)", "Acheter une arme (30 or)", "Aller à la place du village"],
+    "button text": [
+      "Acheter 10 vie (10 or)",
+      "Acheter une arme (30 or)",
+      "Aller à la place du village",
+    ],
     "button functions": [buyHealth, buyWeapon, goTown],
-    text: "Vous entrez dans le magasin."
+    text: "Vous entrez dans le magasin.",
   },
   {
     name: "cave",
-    "button text": ["Combattre le gros truc gluant", "Combattre la bête chelou à grandes dents", "Aller à la place du village"],
+    "button text": [
+      "Combattre le gros truc gluant",
+      "Combattre la bête chelou à grandes dents",
+      "Aller à la place du village",
+    ],
     "button functions": [fightSlime, fightBeast, goTown],
-    text: "Vous entrez dans la grotte. Vous voyez quelques monstres."
+    text: "Vous entrez dans la grotte. Vous voyez quelques monstres.",
   },
   {
     name: "fight",
     "button text": ["Attaquer", "Esquiver", "Fuir"],
     "button functions": [attack, dodge, goTown],
-    text: "Vous combattez un monstre."
+    text: "Vous combattez un monstre.",
   },
   {
     name: "kill monster",
-    "button text": ["Aller à la place du village", "Aller à la place du village", "Aller à la place du village"],
+    "button text": [
+      "Aller à la place du village",
+      "Aller à la place du village",
+      "Aller à la place du village",
+    ],
     "button functions": [goTown, goTown, easterEgg],
-    text: 'Le monstre crie "Arg!" alors qu\'il meurt. Vous gagnez des points d\'expérience et trouvez de l\'or.'
+    text: "Le monstre crie \"Arg!\" alors qu'il meurt. Vous gagnez des points d'expérience et trouvez de l'or.",
   },
   {
     name: "lose",
     "button text": ["REJOUER?", "REJOUER?", "REJOUER?"],
     "button functions": [restart, restart, restart],
-    text: "Vous êtes mort. &#x2620;"
+    text: "Vous êtes mort. &#x2620;",
   },
   {
     name: "win",
     "button text": ["REJOUER?", "REJOUER?", "REJOUER?"],
     "button functions": [restart, restart, restart],
-    text: "Vous avez vaincu le dragon ! VOUS GAGNEZ LE JEU ! &#x1F389;"
+    text: "Vous avez vaincu le dragon ! VOUS GAGNEZ LE JEU ! &#x1F389;",
   },
   {
     name: "easter egg",
     "button text": ["2", "8", "Aller à la place du village ?"],
     "button functions": [pickTwo, pickEight, goTown],
-    text: "Vous trouvez un jeu secret. Choisissez un nombre ci-dessus. Dix nombres seront choisis au hasard entre 0 et 10. Si le nombre que vous choisissez correspond à l'un des nombres aléatoires, vous gagnez !"
-  }
+    text: "Vous trouvez un jeu secret. Choisissez un nombre ci-dessus. Dix nombres seront choisis au hasard entre 0 et 10. Si le nombre que vous choisissez correspond à l'un des nombres aléatoires, vous gagnez !",
+  },
 ];
 
-// initialize buttons
 button1.onclick = goStore;
 button2.onclick = goCave;
 button3.onclick = fightDragon;
@@ -186,10 +204,12 @@ function goFight() {
 
 function attack() {
   text.innerText = "Le " + monsters[fighting].name + " attaque.";
-  text.innerText += " Vous l'attaquez avec votre " + weapons[currentWeapon].name + ".";
+  text.innerText +=
+    " Vous l'attaquez avec votre " + weapons[currentWeapon].name + ".";
   health -= getMonsterAttackValue(monsters[fighting].level);
   if (isMonsterHit()) {
-    monsterHealth -= weapons[currentWeapon].power + Math.floor(Math.random() * xp) + 1;    
+    monsterHealth -=
+      weapons[currentWeapon].power + Math.floor(Math.random() * xp) + 1;
   } else {
     text.innerText += " Vous avez raté miskine.";
   }
@@ -204,20 +224,20 @@ function attack() {
       defeatMonster();
     }
   }
-  if (Math.random() <= .1 && inventory.length !== 1) {
+  if (Math.random() <= 0.1 && inventory.length !== 1) {
     text.innerText += " Votre " + inventory.pop() + " se casse.";
     currentWeapon--;
   }
 }
 
 function getMonsterAttackValue(level) {
-  const hit = (level * 5) - (Math.floor(Math.random() * xp));
+  const hit = level * 5 - Math.floor(Math.random() * xp);
   console.log(hit);
   return hit > 0 ? hit : 0;
 }
 
 function isMonsterHit() {
-  return Math.random() > .2 || health < 20;
+  return Math.random() > 0.2 || health < 20;
 }
 
 function dodge() {
@@ -269,7 +289,8 @@ function pick(guess) {
   while (numbers.length < 10) {
     numbers.push(Math.floor(Math.random() * 11));
   }
-  text.innerText = "Vous avez choisi " + guess + ". Voici les nombres aléatoires :\n";
+  text.innerText =
+    "Vous avez choisi " + guess + ". Voici les nombres aléatoires :\n";
   for (let i = 0; i < 10; i++) {
     text.innerText += numbers[i] + "\n";
   }
